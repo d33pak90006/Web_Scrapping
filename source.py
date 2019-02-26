@@ -45,7 +45,7 @@ for src in source_list:
             dates = dates.strip()
             # # fp.write(dates)
             # fp.writerow(fields)
-            fp.writerow([dates, col])
+            fp.writerow([dates, str(col)])
             # print(source_names[1] + " " +col)
             # fp.writerow(source_names[1] + col)
             # new_dict[source_names[1]] : col
