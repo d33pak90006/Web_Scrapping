@@ -25,7 +25,7 @@ source_list =  [
                     'https://usda.library.cornell.edu/concern/publications/rj430453j'
                ]
 fp = csv.writer(open('D:\Office_Scripts/notes.csv','w',encoding='utf-8'))
-fields = ['Data Source Name','MM/DD/YYYY']
+fields = ['Data Source Name','Latest release Dates in MM/DD/YYYY',str(curr_date)]
 fp.writerow(fields)
 for src in source_list:
     source_page = requests.get(src)
@@ -58,15 +58,6 @@ for src in source_list:
 # fp = csv.writer(open('D:\Office_Scripts/notes.csv','w',encoding='utf-8'))
 #
 # fp.writerow(fields)
-
-
-
-
-
-
-
-
-
 #
 # fields = ['Data Source Name','MM/DD/YYYY']
 # fp = csv.writer(open('D:\Office_Scripts/notes.csv','w',encoding='utf-8'))
