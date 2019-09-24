@@ -1,0 +1,31 @@
+from bs4 import BeautifulSoup
+import pandas as pd
+import requests
+headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'}
+source_page = requests.get('https://3movierulz.st',headers=headers)
+soup = BeautifulSoup(source_page.text, 'lxml')
+
+movie_list = soup.find_all('div',{"class" : "boxed film"})
+
+new_list = soup.find_all('div',{"class" : "cont_display"})
+temp = ''
+tmp_list = []
+for samp in  soup.find_all('a',href=True):
+    if samp.text:
+        tmp_list.append(samp['href'])
+
+# for row in tmp_list:
+#     print(row)
+sap_list = []
+for sip in soup.find_all('p'):
+    sap_list.append(sip.text)
+    # print(sip.text)
+# df = pd.DataFrame(tmp_list)
+# df_2 = pd.DataFrame(sap_list)
+# df.to_csv('Movies_List.csv')
+# df_2.to_csv('Movies.csv')
+
+for row,col in zip(tmp_list,sap_list):
+    print(row , " " , col)
+
+
