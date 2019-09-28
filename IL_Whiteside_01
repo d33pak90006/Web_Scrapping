@@ -1,0 +1,37 @@
+import pandas
+import requests
+from bs4 import BeautifulSoup
+
+parcel = '11-19-252-005'
+source_page = requests.get('http://whitesideil.devnetwedge.com/parcel/view/1119252005/2018')
+# SOURCE NAME EXTRACTION
+soup = BeautifulSoup(source_page.content, 'html.parser')
+
+property_info = soup.find('div',{'class':'panel-heading'}).find('h3')
+print(property_info.text)
+print("Searching for parcel " +parcel)
+headers_data = []
+table_01 = soup.find_all('div',{'class':'inner-label'})
+# table_02 = soup.find('div').find_all(class_='inner-value')
+for x in table_01:
+    headers_data.append(x.text.replace("\r","").replace("\n",""))
+# print(table_02.text)
+content_data = []
+table_02 = soup.find_all('div',{'class':'inner-value'})
+
+for y in table_02:
+    content_data.append(y.text.replace("\r","").replace("\n",""))
+
+web_dict = {}
+for a,b in zip(headers_data,content_data):
+    web_dict[a] = b
+
+# print(web_dict)
+web_content_list = []
+web_content_list.append(web_dict)
+
+df = pandas.DataFrame(web_content_list)
+df.to_csv('WhiteSide.csv')
+
+
+
