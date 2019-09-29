@@ -1,0 +1,66 @@
+import pandas
+import requests
+from bs4 import BeautifulSoup
+parcel = '11-19-252-005'
+source_page = requests.get('http://whitesideil.devnetwedge.com/parcel/view/1119252005/2018')
+    # SOURCE NAME EXTRACTION
+soup = BeautifulSoup(source_page.content, 'html.parser')
+headers_data = []
+content_data = []
+
+class Scrapper:
+    # Function to get header Data
+    def headers_finding(self):
+        property_info = soup.find('div', {'class': 'panel-heading'}).find('h3')
+        print(property_info.text)
+        print("Searching for parcel " + parcel)
+
+        table_01 = soup.find_all('div', {'class': 'inner-label'})
+        # table_02 = soup.find('div').find_all(class_='inner-value')
+        for x in table_01:
+            headers_data.append(x.text.replace("\r", "").replace("\n", ""))
+
+    # Function to get content data
+    def Content_data(self):
+
+        table_02 = soup.find_all('div', {'class': 'inner-value'})
+
+        for y in table_02:
+            content_data.append(y.text.replace("\r", "").replace("\n", ""))
+
+    # Function to write data to csv file
+    def data_to_csv(self):
+        web_dict = {}
+        for a, b in zip(headers_data, content_data):
+            web_dict[a] = b
+
+        # print(web_dict)
+        web_content_list = []
+        web_content_list.append(web_dict)
+
+        df = pandas.DataFrame(web_content_list)
+        df.to_csv('WhiteSide.csv')
+
+county = Scrapper()
+
+county.headers_finding()
+county.Content_data()
+county.data_to_csv()
+
+
+
+
+
+
+
+
+
+
+
+# print(table_02.text)
+
+
+
+
+
+
