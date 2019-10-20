@@ -1,0 +1,34 @@
+from bs4 import BeautifulSoup
+import requests
+import pandas
+
+Title_link = []
+Title_names = []
+
+
+def All_songs(lang):
+    url = 'https://gaana.com/album/' + lang
+    print(url)
+    source_page = requests.get(url)
+    soup_page = BeautifulSoup(source_page.content, 'lxml')
+    # songs_list = soup_page.find('div',{'class':'_ot'})
+    for li in soup_page.find_all('div', attrs={'class': '_in'}):
+        Title_names.append(li.a.get('title'))
+        Title_link.append('https://gaana.com/' + li.a.get('href'))
+    write_to_csv(Title_names, Title_link)
+
+
+def write_to_csv(Title_names, Title_link):
+    song_list = []
+    songs_dict = {}
+    for x, y in zip(Title_names, Title_link):
+        songs_dict[x] = y
+        song_list.append(songs_dict)
+        df = pandas.DataFrame(song_list)
+        df.to_csv('PlayList')
+
+
+# Connecting to website
+samp = input("Enter the Language of Songs : ")
+lang = samp.lower()
+All_songs(lang)
