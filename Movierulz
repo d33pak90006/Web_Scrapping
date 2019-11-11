@@ -14,8 +14,7 @@ for samp in  soup.find_all('a',href=True):
     if samp.text:
         tmp_list.append(samp['href'])
 
-# for row in tmp_list:
-#     print(row)
+
 sap_list = []
 for sip in soup.find_all('p'):
     sap_list.append(sip.text)
